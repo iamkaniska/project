@@ -33,17 +33,24 @@ const GenerateQuestions = () => {
     setLoading(true);
     
     try {
-      const res = await axios.post('http://localhost:5000/api/questions/generate', {
-        jobRole,
-        category,
-        count: parseInt(count, 10)
-      });
-      
-      setGeneratedQuestions(res.data);
-      setAlert('Questions generated successfully', 'success');
-    } catch (err) {
-      setAlert('Error generating questions', 'danger');
-    } finally {
+      const token = localStorage.getItem("token"); // Corrected method
+      const res = await axios.post(
+        "http://localhost:5001/api/questions/generate",
+        {
+          jobRole,
+          category,
+          count: parseInt(count, 10),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Corrected placement of headers
+          },
+        }
+      );
+    } catch (error) {
+      console.error("Error generating questions:", error);
+    }
+     finally {
       setLoading(false);
     }
   };

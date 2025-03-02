@@ -13,7 +13,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchInterviews = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/interviews');
+        const res = await axios.get('http://localhost:5001/api/interviews');
         setInterviews(res.data);
         setLoading(false);
       } catch (err) {

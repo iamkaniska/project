@@ -178,7 +178,7 @@ router.delete('/:id', auth, authorize('recruiter', 'admin'), async (req, res) =>
     if (!interview) {
       return res.status(404).json({ message: 'Interview not found' });
     }
-    
+     
     // Check if user is admin or the creator of the interview
     if (
       req.user.role !== 'admin' && 

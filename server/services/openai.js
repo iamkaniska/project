@@ -1,22 +1,25 @@
-import { OpenAI } from 'openai';
-import dotenv from 'dotenv';
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import dotenv from "dotenv";
 
 dotenv.config();
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Use environment variable for API key
+const genAI = new GoogleGenerativeAI('AIzaSyAEG_8Wn3OCeo8OlAuZedy2s03Yl93yF1I');
 
 export const generateAIQuestions = async (jobRole, category, count = 5) => {
+  console.log(`Generating ${count} ${category} questions for ${jobRole} role`);
+
   try {
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+
     const prompt = `Generate ${count} interview questions for a ${jobRole} position. 
     The questions should be ${category} questions.
-    
+
     For each question, provide:
     1. The question text
     2. A suggested answer
     3. The difficulty level (beginner, intermediate, or advanced)
-    
+
     Format the response as a JSON array of objects with the following structure:
     [
       {
@@ -24,28 +27,51 @@ export const generateAIQuestions = async (jobRole, category, count = 5) => {
         "suggestedAnswer": "detailed answer",
         "difficulty": "difficulty level"
       }
-    ]`;
+    ]
 
-    const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [
-        { role: "system", content: "You are a professional interview coach specializing in creating realistic interview questions and answers." },
-        { role: "user", content: prompt }
-      ],
-      temperature: 0.7,
-      max_tokens: 2500,
-      response_format: { type: "json_object" }
-    });
+    Return only valid JSON without code blocks or any other text.`;
 
-    const content = response.choices[0].message.content;
-    const parsedContent = JSON.parse(content);
+    const result = await model.generateContent(prompt);
     
-    // Ensure we have an array of questions
-    return Array.isArray(parsedContent.questions) 
-      ? parsedContent.questions 
-      : parsedContent;
+    // Extract the text from the response
+    const responseText = result.response.text();
+    console.log("Raw Response:", responseText);
+
+    if (!responseText) {
+      throw new Error("No content received from API");
+    }
+
+    // Handle potential code block formatting in the response
+    let jsonString = responseText;
+    // Check if the response contains code blocks
+    if (responseText.includes("```")) {
+      // Extract content between ```json and ``` markers
+      const match = responseText.match(/```(?:json)?\n([\s\S]*?)\n```/);
+      if (match && match[1]) {
+        jsonString = match[1].trim();
+      } else {
+        // If no match found, try to clean up the string
+        jsonString = responseText.replace(/```json|```/g, "").trim();
+      }
+    }
+
+    // Attempt to parse the JSON
+    try {
+      const parsedContent = JSON.parse(jsonString);
+      
+      // Validate the structure of the response
+      if (!Array.isArray(parsedContent)) {
+        throw new Error("API did not return an array of questions");
+      }
+      
+      return parsedContent;
+    } catch (jsonError) {
+      console.error("JSON parsing error:", jsonError);
+      console.error("Raw JSON string:", jsonString);
+      throw new Error(`Failed to parse JSON from API response: ${jsonError.message}`);
+    }
   } catch (error) {
-    console.error('Error generating AI questions:', error);
-    throw new Error('Failed to generate AI questions');
+    console.error("Error generating AI questions:", error);
+    throw error; // Propagate the error to be handled by the route
   }
 };

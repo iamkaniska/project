@@ -90,6 +90,8 @@ router.post('/login', async (req, res) => {
 // Get current user
 router.get('/me', auth, async (req, res) => {
   try {
+    console.log(req.user);
+    
     res.json(req.user);
   } catch (error) {
     console.error(error);

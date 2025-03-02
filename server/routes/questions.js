@@ -69,31 +69,80 @@ router.post('/generate', auth, async (req, res) => {
     if (!jobRole || !category) {
       return res.status(400).json({ message: 'Job role and category are required' });
     }
+
+    console.log(`Generating ${count} ${category} questions for ${jobRole} role`);
     
-    const questions = await generateAIQuestions(jobRole, category, count);
+    // Set a timeout for the AI questions generation
+    let questions;
+    try {
+      const questionPromise = generateAIQuestions(jobRole, category, count);
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('AI question generation timed out')), 40000);
+      });
+      
+      questions = await Promise.race([questionPromise, timeoutPromise]);
+      
+      // Validate questions structure to ensure it's an array
+      if (!Array.isArray(questions) || questions.length === 0) {
+        throw new Error('Invalid response format from AI service');
+      }
+    } catch (aiError) {
+      console.error('Error generating AI questions:', aiError);
+      return res.status(500).json({ 
+        message: 'Failed to generate AI questions',
+        error: aiError.message 
+      });
+    }
     
-    // Save generated questions to database
-    const savedQuestions = await Promise.all(
-      questions.map(async (q) => {
+    // Log successful question generation
+    console.log(`Successfully generated ${questions.length} questions`);
+    
+    // Save generated questions to database with error handling for each question
+    const savedQuestions = [];
+    
+    for (const q of questions) {
+      try {
+        // Ensure all required fields are present
+        if (!q.text) {
+          console.warn('Skipping question with missing text field');
+          continue;
+        }
+        
         const question = new Question({
           text: q.text,
           category,
           jobRole,
-          suggestedAnswer: q.suggestedAnswer,
+          suggestedAnswer: q.suggestedAnswer || 'No suggested answer provided',
           difficulty: q.difficulty || 'intermediate',
           createdBy: req.user._id,
           isAIGenerated: true
         });
         
         await question.save();
-        return question;
-      })
-    );
+        savedQuestions.push(question);
+      } catch (saveError) {
+        console.error('Error saving question to database:', saveError);
+        // Continue with other questions instead of failing the entire batch
+      }
+    }
     
-    res.status(201).json(savedQuestions);
+    // Check if we managed to save any questions
+    if (savedQuestions.length === 0) {
+      return res.status(500).json({ 
+        message: 'Failed to save any generated questions',
+        savedCount: 0
+      });
+    }
+    
+    // Return the successfully saved questions
+    res.status(201).json({
+      message: `Successfully saved ${savedQuestions.length} of ${questions.length} questions`,
+      savedCount: savedQuestions.length,
+      questions: savedQuestions
+    });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Error in generate endpoint:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
 

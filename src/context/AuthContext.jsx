@@ -5,15 +5,16 @@ const AuthContext = createContext();
 
 const initialState = {
   token: localStorage.getItem('token'),
+  user: JSON.parse(localStorage.getItem('user')), // Retrieve user from localStorage
   isAuthenticated: null,
   loading: true,
-  user: null,
   error: null
 };
 
 const authReducer = (state, action) => {
   switch (action.type) {
     case 'USER_LOADED':
+      localStorage.setItem('user', JSON.stringify(action.payload)); // Store user in localStorage
       return {
         ...state,
         isAuthenticated: true,
@@ -23,6 +24,7 @@ const authReducer = (state, action) => {
     case 'REGISTER_SUCCESS':
     case 'LOGIN_SUCCESS':
       localStorage.setItem('token', action.payload.token);
+      localStorage.setItem('user', JSON.stringify(action.payload.user)); // Store user in localStorage
       return {
         ...state,
         ...action.payload,
@@ -35,12 +37,13 @@ const authReducer = (state, action) => {
     case 'LOGIN_FAIL':
     case 'LOGOUT':
       localStorage.removeItem('token');
+      localStorage.removeItem('user'); // Remove user from localStorage
       return {
         ...state,
         token: null,
+        user: null,
         isAuthenticated: false,
         loading: false,
-        user: null,
         error: action.payload
       };
     case 'CLEAR_ERROR':
@@ -66,49 +69,60 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Load user
-  const loadUser = async () => {
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
-    }
+ // Load user
+const loadUser = async () => {
+  const token = localStorage.getItem('token'); // Get token from localStorage
 
-    try {
-      const res = await axios.get('http://localhost:5000/api/auth/me');
-      dispatch({
-        type: 'USER_LOADED',
-        payload: res.data
-      });
-    } catch (err) {
-      dispatch({
-        type: 'AUTH_ERROR',
-        payload: err.response?.data?.message || 'Authentication error'
-      });
-    }
-  };
+  if (token) {
+    setAuthToken(token); // Set token in Axios headers
+  }
+
+  try {
+    const res = await axios.get('http://localhost:5001/api/auth/me', {
+      headers: {
+        Authorization: `Bearer ${token}` // Send token in request headers
+      }
+    });
+
+    dispatch({
+      type: 'USER_LOADED',
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: 'AUTH_ERROR',
+      payload: err.response?.data?.message || 'Authentication error'
+    });
+  }
+};
+
 
   // Register user
   const register = async (formData) => {
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/register', formData);
-      
-      dispatch({
-        type: 'REGISTER_SUCCESS',
-        payload: res.data
-      });
-      
-      loadUser();
+      const res = await axios.post('http://localhost:5001/api/auth/register', formData);
+  
+      console.log("Register Response:", res.data);  // Debugging
+  
+      localStorage.setItem('token', res.data.token); // Store token
+      localStorage.setItem('user', JSON.stringify(res.data.user)); // Store user data
+  
+      dispatch({ type: 'REGISTER_SUCCESS', payload: res.data });
+  
+      loadUser();  // Ensure user loads after register
     } catch (err) {
-      dispatch({
-        type: 'REGISTER_FAIL',
-        payload: err.response?.data?.message || 'Registration failed'
-      });
+      console.error("Register Error:", err.response?.data?.message || err.message);
+      dispatch({ type: 'REGISTER_FAIL', payload: err.response?.data?.message || 'Registration failed' });
     }
   };
+  
 
   // Login user
   const login = async (formData) => {
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', formData);
-      
+      const res = await axios.post('http://localhost:5001/api/auth/login', formData);
+      localStorage.setItem('token', res.data.token); // Store token
+      localStorage.setItem('user', JSON.stringify(res.data.user)); // Store user data
       dispatch({
         type: 'LOGIN_SUCCESS',
         payload: res.data

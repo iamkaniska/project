@@ -30,12 +30,12 @@ const CreateInterview = () => {
     const fetchData = async () => {
       try {
         // Fetch questions
-        const questionsRes = await axios.get('http://localhost:5000/api/questions');
+        const questionsRes = await axios.get('http://localhost:5001/api/questions');
         setAvailableQuestions(questionsRes.data);
         
         // Fetch job seekers (for recruiters to add to interviews)
         if (user.role === 'recruiter' || user.role === 'admin') {
-          const usersRes = await axios.get('http://localhost:5000/api/users');
+          const usersRes = await axios.get('http://localhost:5001/api/users');
           // Filter to only show job seekers
           const jobSeekers = usersRes.data.filter(u => u.role === 'jobseeker');
           setAvailableUsers(jobSeekers);
@@ -94,7 +94,7 @@ const CreateInterview = () => {
         participants
       };
       
-      await axios.post('http://localhost:5000/api/interviews', interviewData);
+      await axios.post('http://localhost:5001/api/interviews', interviewData);
       
       setAlert('Interview created successfully', 'success');
       navigate('/interviews');

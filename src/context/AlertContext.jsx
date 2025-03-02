@@ -17,7 +17,7 @@ export const AlertProvider = ({ children }) => {
   const [state, dispatch] = useReducer(alertReducer, []);
 
   // Set Alert
-  const setAlert = (msg, type, timeout = 5000) => {
+  const setAlert = (msg, type, timeout = 5001) => {
     const id = Math.random().toString(36).substring(2, 9);
     
     dispatch({

@@ -13,7 +13,7 @@ const Interviews = () => {
   useEffect(() => {
     const fetchInterviews = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/interviews');
+        const res = await axios.get('http://localhost:5001/api/interviews');
         setInterviews(res.data);
         setLoading(false);
       } catch (err) {
@@ -28,7 +28,7 @@ const Interviews = () => {
   const deleteInterview = async (id) => {
     if (window.confirm('Are you sure you want to delete this interview?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/interviews/${id}`);
+        await axios.delete(`http://localhost:5001/api/interviews/${id}`);
         setInterviews(interviews.filter(interview => interview._id !== id));
         setAlert('Interview removed', 'success');
       } catch (err) {
