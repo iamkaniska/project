@@ -23,7 +23,7 @@ const Navbar = () => {
       <li>
         <Link to="/interviews">Interviews</Link>
       </li>
-      {user && (user.role === 'recruiter' || user.role === 'admin') && (
+      {user && ( user.role === 'admin') && (
         <li>
           <Link to="/create-interview">Create Interview</Link>
         </li>
@@ -60,7 +60,7 @@ const Navbar = () => {
     <nav className="navbar bg-dark">
       <h1>
         <Link to="/">
-          <i className="fas fa-code"></i> InterviewPrep
+          <i className="fas fa-code"></i> Educative
         </Link>
       </h1>
       <div>{isAuthenticated ? authLinks : guestLinks}</div>

@@ -50,7 +50,7 @@ img {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .app-container {
@@ -68,6 +68,7 @@ main {
 .text-primary {
   color: var(--primary-color);
 }
+
 
 .text-dark {
   color: var(--dark-color);

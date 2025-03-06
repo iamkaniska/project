@@ -9,15 +9,14 @@ const Home = () => {
   if (isAuthenticated) {
     return <Navigate to="/dashboard" />;
   }
-
   return (
     <div className="home-container">
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-content">
-          <h1 className="hero-title">Ace Your Next Interview</h1>
+          <h1 className="hero-title">apne agle interview me safalta paye</h1>
           <p className="hero-subtitle">
-            Get AI-generated questions, practice sessions, and feedback from recruiters.
+            you will get AI-generated questions, practice sessions, and feedback from recruiters.
           </p>
           <div className="hero-buttons">
             <Link to="/register" className="btn btn-primary">Sign Up</Link>
@@ -46,7 +45,7 @@ const Home = () => {
       <section className="cta">
         <h2>Ready to Get Started?</h2>
         <p>Sign up now and start preparing for your dream job.</p>
-        <Link to="/register" className="btn btn-primary">Join Now</Link>
+        <Link to="/register" className="btn btn-primary">join kar le bhai</Link>
       </section>
     </div>
   );

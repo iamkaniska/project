@@ -24,9 +24,10 @@ app.use('/api/questions', questionRoutes);
 app.use('/api/interviews', interviewRoutes);
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect('mongodb+srv://kaniskamaity:2jS86kwVDdxjCJKZ@cluster0.f3vcv.mongodb.net/')
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('MongoDB connection error:', err));
+console.log(process.env.JWT_SECRET);
 
 app.get('/', (req, res) => {
   res.send('Interview Preparation API is running');

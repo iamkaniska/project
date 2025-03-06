@@ -71,7 +71,7 @@ function App() {
                   </PrivateRoute>
                 } />
                 <Route path="/create-interview" element={
-                  <RoleRoute roles={['recruiter', 'admin']}>
+                  <RoleRoute roles={[ 'admin']}>
                     <CreateInterview />
                   </RoleRoute>
                 } />

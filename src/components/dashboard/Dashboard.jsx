@@ -32,7 +32,7 @@ const Dashboard = () => {
         <i className="fas fa-user"></i> Welcome {user && user.name}
       </p>
       
-      {user && user.role === 'jobseeker' && (
+      {user === 'jobseeker' && (
         <div className="dash-buttons">
           <Link to="/profile" className="btn btn-light">
             <i className="fas fa-user-circle text-primary"></i> My Profile
