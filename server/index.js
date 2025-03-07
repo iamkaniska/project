@@ -21,7 +21,7 @@ app.use(cors());
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/questions', questionRoutes);
-app.use('/api/interviews', interviewRoutes);
+app.use('/api/interviews', interviewRoutes); //qwertyu
 
 // MongoDB Connection
 mongoose.connect('mongodb+srv://kaniskamaity:2jS86kwVDdxjCJKZ@cluster0.f3vcv.mongodb.net/')
