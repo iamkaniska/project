@@ -13,7 +13,6 @@ const GenerateQuestions = () => {
     category: 'technical',
     count: 5
   });
-  
   const [generatedQuestions, setGeneratedQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
   

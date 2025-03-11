@@ -21,11 +21,13 @@ import { AuthProvider } from './context/AuthContext';
 import { AlertProvider } from './context/AlertContext';
 import Alert from './components/layout/Alert';
 import './App.css';
+import Kan from './components/Kan';
 
 function App() {
   return (
     <AuthProvider>
       <AlertProvider>
+        
         <Router>
           <div className="app-container">
             <Navbar />
@@ -34,6 +36,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/kani" element={<Kan />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/dashboard" element={
                   <PrivateRoute>

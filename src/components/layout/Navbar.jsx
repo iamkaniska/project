@@ -15,6 +15,9 @@ const Navbar = () => {
   const authLinks = (
     <ul>
       <li>
+        <Link to="/kani">kan</Link>
+      </li>
+      <li>
         <Link to="/dashboard">Dashboard</Link>
       </li>
       <li>
