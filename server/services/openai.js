@@ -2,9 +2,9 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import dotenv from "dotenv";
 
 dotenv.config();
-
+const api=process.env.OPENAI_API_KEY;
 // Use environment variable for API key
-const genAI = new GoogleGenerativeAI('AIzaSyAEG_8Wn3OCeo8OlAuZedy2s03Yl93yF1I');
+const genAI = new GoogleGenerativeAI(api);
 
 export const generateAIQuestions = async (jobRole, category, count = 5) => {
   console.log(`Generating ${count} ${category} questions for ${jobRole} role`);

@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "node server/index.js",
-    "dev:server": "nodemon server/index.js"
+    "dev:server": "server/index.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.22.0",
