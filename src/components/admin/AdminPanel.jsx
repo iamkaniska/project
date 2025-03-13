@@ -19,9 +19,9 @@ const AdminPanel = () => {
       try {
         // Fetch all data in parallel
         const [usersRes, interviewsRes, questionsRes] = await Promise.all([
-          axios.get('http://localhost:5001/api/users'),
-          axios.get('http://localhost:5001/api/interviews'),
-          axios.get('http://localhost:5001/api/questions')
+          axios.get('https://interview-prepare.onrender.com/api/users'),
+          axios.get('https://interview-prepare.onrender.com/api/interviews'),
+          axios.get('https://interview-prepare.onrender.com/api/questions')
         ]);
         
         setUsers(usersRes.data);
@@ -40,7 +40,7 @@ const AdminPanel = () => {
   const deleteUser = async (id) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
-        await axios.delete(`http://localhost:5001/api/users/${id}`);
+        await axios.delete(`https://interview-prepare.onrender.com/api/users/${id}`);
         setUsers(users.filter(user => user._id !== id));
         setAlert('User removed', 'success');
       } catch (err) {
@@ -52,7 +52,7 @@ const AdminPanel = () => {
   const deleteInterview = async (id) => {
     if (window.confirm('Are you sure you want to delete this interview?')) {
       try {
-        await axios.delete(`http://localhost:5001/api/interviews/${id}`);
+        await axios.delete(`https://interview-prepare.onrender.com/api/interviews/${id}`);
         setInterviews(interviews.filter(interview => interview._id !== id));
         setAlert('Interview removed', 'success');
       } catch (err) {
@@ -64,7 +64,7 @@ const AdminPanel = () => {
   const deleteQuestion = async (id) => {
     if (window.confirm('Are you sure you want to delete this question?')) {
       try {
-        await axios.delete(`http://localhost:5001/api/questions/${id}`);
+        await axios.delete(`https://interview-prepare.onrender.com/api/questions/${id}`);
         setQuestions(questions.filter(question => question._id !== id));
         setAlert('Question removed', 'success');
       } catch (err) {

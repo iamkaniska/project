@@ -13,7 +13,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await axios.get(`http://localhost:5001/api/users/${user._id}`);
+        const res = await axios.get(`https://interview-prepare.onrender.com/api/users/${user._id}`);
         setProfile(res.data);
         setLoading(false);
       } catch (err) {

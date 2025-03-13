@@ -34,7 +34,7 @@ const GenerateQuestions = () => {
     try {
       const token = localStorage.getItem("token"); // Corrected method
       const res = await axios.post(
-        "http://localhost:5001/api/questions/generate",
+        "https://interview-prepare.onrender.com/api/questions/generate",
         {
           jobRole,
           category,

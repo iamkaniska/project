@@ -78,7 +78,7 @@ const loadUser = async () => {
   }
 
   try {
-    const res = await axios.get('http://localhost:5001/api/auth/me', {
+    const res = await axios.get('https://interview-prepare.onrender.com/api/auth/me', {
       headers: {
         Authorization: `Bearer ${token}` // Send token in request headers
       }
@@ -100,7 +100,7 @@ const loadUser = async () => {
   // Register user
   const register = async (formData) => {
     try {
-      const res = await axios.post('http://localhost:5001/api/auth/register', formData);
+      const res = await axios.post('https://interview-prepare.onrender.com/api/auth/register', formData);
   
       console.log("Register Response:", res.data);  // Debugging
   
@@ -120,7 +120,7 @@ const loadUser = async () => {
   // Login user
   const login = async (formData) => {
     try {
-      const res = await axios.post('http://localhost:5001/api/auth/login', formData);
+      const res = await axios.post('https://interview-prepare.onrender.com/api/auth/login', formData);
       localStorage.setItem('token', res.data.token); // Store token
       localStorage.setItem('user', JSON.stringify(res.data.user)); // Store user data
       dispatch({

@@ -19,7 +19,7 @@ const Questions = () => {
     const fetchQuestions = async () => {
       try {
         const { category, difficulty, jobRole } = filters;
-        let url = 'http://localhost:5001/api/questions';
+        let url = 'https://interview-prepare.onrender.com/api/questions';
         
         // Add query parameters if filters are set
         const params = new URLSearchParams();
@@ -53,7 +53,7 @@ const Questions = () => {
   const deleteQuestion = async (id) => {
     if (window.confirm('Are you sure you want to delete this question?')) {
       try {
-        await axios.delete(`http://localhost:5001/api/questions/${id}`);
+        await axios.delete(`https://interview-prepare.onrender.com/api/questions/${id}`);
         setQuestions(questions.filter(question => question._id !== id));
         setAlert('Question removed', 'success');
       } catch (err) {
