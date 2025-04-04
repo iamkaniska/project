@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
@@ -27,7 +27,6 @@ function App() {
   return (
     <AuthProvider>
       <AlertProvider>
-        
         <Router>
           <div className="app-container">
             <Navbar />
