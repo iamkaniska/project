@@ -13,9 +13,6 @@ const Kan = () => {
     SpeechRecognition.startListening({ continuous: true, language: "en-IN" });
 
   const { transcript, browserSupportsSpeechRecognition } = useSpeechRecognition();
- 
-  
-
   if (!browserSupportsSpeechRecognition) {
     return <p>Your browser does not support speech recognition.</p>;
   }
