@@ -22,6 +22,11 @@ import { AlertProvider } from './context/AlertContext';
 import Alert from './components/layout/Alert';
 import './App.css';
 import Kan from './components/Kan';
+import ResumeUploader from './components/ResumeUploader';
+
+
+
+
 
 function App() {
   return (
@@ -35,6 +40,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/resumeuploader" element={<ResumeUploader/>} />
                 <Route path="/kani" element={<Kan />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/dashboard" element={

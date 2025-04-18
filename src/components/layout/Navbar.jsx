@@ -18,6 +18,9 @@ const Navbar = () => {
         <Link to="/kani">kan</Link>
       </li>
       <li>
+        <Link to="/resumeuploader">ResumeUploader</Link>
+      </li>
+      <li>
         <Link to="/dashboard">Dashboard</Link>
       </li>
       <li>

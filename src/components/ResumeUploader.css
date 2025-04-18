@@ -1,0 +1,95 @@
+/* ResumeUploader.css */
+
+/* Container styling */
+.container {
+  padding: 1.5rem;
+  max-width: 40rem;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Title Styling */
+.container h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+/* Form group to separate input and button vertically */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* spacing between input and button */
+  margin-bottom: 1.5rem;
+}
+
+/* Input styling */
+.input-file {
+  padding: 0.75rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.input-file:focus {
+  border-color: #3b82f6;
+  outline: none;
+}
+
+/* Button styling */
+.button-upload {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border: none;
+  width: fit-content;
+}
+
+.button-upload:hover {
+  background-color: #2563eb;
+}
+
+/* Extracted text section */
+.extracted-text {
+  margin-top: 1.5rem;
+}
+
+.extracted-text h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.extracted-text pre {
+  white-space: pre-wrap;
+  padding: 1rem;
+  background-color: #f3f4f6;
+  border-radius: 8px;
+  word-wrap: break-word;
+  color: #333;
+  font-size: 1rem;
+}
+
+/* Score section */
+.score-section {
+  margin-top: 1.5rem;
+}
+
+.score-section h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.score-section p {
+  font-size: 1rem;
+  color: #4b5563;
+}

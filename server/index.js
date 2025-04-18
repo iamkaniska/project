@@ -1,3 +1,4 @@
+/* eslint-env node */
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
@@ -11,7 +12,6 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5001;
-
 
 // Middleware
 app.use(express.json());
@@ -32,6 +32,7 @@ console.log(process.env.JWT_SECRET);
 app.get('/', (req, res) => {
   res.send('Interview Preparation API is running');
 });
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
